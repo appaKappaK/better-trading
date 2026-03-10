@@ -72,12 +72,18 @@ package-firefox: ## Package the firefox extension
 	export TARGET_BROWSER=firefox; npx ember build --environment production --output-path ./dist/ember-build
 	mkdir -p ./dist/staged/assets
 	cp -R ./dist/ember-build/assets/{better-trading.js,better-trading.css,vendor.js,vendor.css,images} ./dist/staged/assets
-	node ./scripts/scaffold-extension.js production
-	## Patch the vendor.js to prevent a check from failing on Firefox
-	sed -i "" -E 's/var t="object"==typeof self&&null!==self&&self.Object===Object&&"undefined"!=typeof Window&&self.constructor===Window&&"object"==typeof document&&null!==document&&self.document===document&&"object"==typeof location&&null!==location&&self.location===location&&"object"==typeof history&&null!==history&&self.history===history&&"object"==typeof navigator&&null!==navigator&&self.navigator===navigator&&"string"==typeof navigator.userAgent/var t=true/g' ./dist/staged/assets/vendor.js
-	sed -i "" -E "s/var hasDom = typeof self === 'object' && self !== null && self.Object === Object && typeof Window !== 'undefined' && self.constructor === Window && typeof document === 'object' && document !== null && self.document === document && typeof location === 'object' && location !== null && self.location === location && typeof history === 'object' && history !== null && self.history === history && typeof navigator === 'object' && navigator !== null && self.navigator === navigator && typeof navigator.userAgent === 'string'/var hasDom=true/g" ./dist/staged/assets/vendor.js
+	export TARGET_BROWSER=firefox; node ./scripts/scaffold-extension.js production
+	node ./scripts/patch-vendor-firefox.js production
 	mkdir -p ./dist-packages
 	(cd ./dist/staged/; zip -r ../../dist-packages/firefox.zip *)
+
+.PHONY: dev-firefox
+dev-firefox: ## Build the extension for Firefox development (then load dist/dev in about:debugging)
+	node ./scripts/enforce-engine-versions.js
+	rm -rf ./dist/dev
+	export TARGET_BROWSER=firefox; node ./scripts/scaffold-extension.js dev
+	export TARGET_BROWSER=firefox; npx ember build --environment development --output-path ./dist/dev/ember-build
+	node ./scripts/patch-vendor-firefox.js dev
 
 .PHONY: dev
 dev: ## Build the extension for development purposes, watching files for update
