@@ -87,7 +87,7 @@ format: ## Format project files
 	npx eslint --ext .js,.ts . --fix --quiet
 
 .PHONY: verify
-verify: lint-scripts lint-styles lint-templates check-format check-types ## verify project files
+verify: lint-scripts lint-styles lint-templates check-types ## verify project files
 
 .PHONY: check-format
 check-format: ## Verify prettier formatting

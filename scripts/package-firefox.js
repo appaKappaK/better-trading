@@ -24,15 +24,13 @@ const OUTPUT_FILE = path.join(OUTPUT_DIR, 'better-trading-firefox.xpi');
 
 function run(cmd, opts = {}) {
   console.log(`> ${cmd}`);
-  execSync(cmd, {
+  execSync(cmd, Object.assign({
     stdio: 'inherit',
-    env: {
-      ...process.env,
+    env: Object.assign({}, process.env, {
       NODE_OPTIONS: '--openssl-legacy-provider',
       BROCCOLI_PERSISTENT_FILTER_CACHE_ROOT: path.resolve('.cache/broccoli-persistent-filter'),
-    },
-    ...opts,
-  });
+    }),
+  }, opts));
 }
 
 // Clean
@@ -70,7 +68,7 @@ console.log(`> 7z a -tzip "${OUTPUT_FILE}" *`);
 const result = spawnSync('7z', ['a', '-tzip', xpiAbsolute, '*'], {
   cwd: stagedAbsolute,
   stdio: 'inherit',
-  env: {...process.env},
+  env: Object.assign({}, process.env),
 });
 if (result.status !== 0) {
   console.error('7z failed. Make sure 7-Zip is installed (scoop install 7zip).');
