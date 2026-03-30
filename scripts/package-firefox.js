@@ -24,7 +24,15 @@ const OUTPUT_FILE = path.join(OUTPUT_DIR, 'better-trading-firefox.xpi');
 
 function run(cmd, opts = {}) {
   console.log(`> ${cmd}`);
-  execSync(cmd, {stdio: 'inherit', env: {...process.env, TARGET_BROWSER: 'firefox', NODE_OPTIONS: '--openssl-legacy-provider'}, ...opts});
+  execSync(cmd, {
+    stdio: 'inherit',
+    env: {
+      ...process.env,
+      NODE_OPTIONS: '--openssl-legacy-provider',
+      BROCCOLI_PERSISTENT_FILTER_CACHE_ROOT: path.resolve('.cache/broccoli-persistent-filter'),
+    },
+    ...opts,
+  });
 }
 
 // Clean

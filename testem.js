@@ -7,17 +7,12 @@ module.exports = {
   test_page: 'tests/index.html?hidepassed',
   disable_watching: true,
   parallel: 5,
-  launch_in_ci: ['Chrome'],
-  launch_in_dev: ['Chrome'],
+  launch_in_ci: ['Firefox'],
+  launch_in_dev: ['Firefox'],
   browser_args: {
-    Chrome: {
+    Firefox: {
       ci: [
-        process.env.CI ? '--no-sandbox' : null,
-        '--headless',
-        '--disable-dev-shm-usage',
-        '--disable-software-rasterizer',
-        '--mute-audio',
-        '--remote-debugging-port=9222',
+        '-headless',
       ].filter(Boolean),
     },
   },

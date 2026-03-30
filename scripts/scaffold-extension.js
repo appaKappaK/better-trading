@@ -4,9 +4,6 @@ const fs = require('fs');
 const path = require('path');
 const [target] = process.argv.slice(2);
 
-const targetBrowser = process.env.TARGET_BROWSER || 'chrome';
-const isFirefox = targetBrowser === 'firefox';
-
 const outputDir = {
   dev: './dist/dev',
   production: './dist/staged',
@@ -21,23 +18,6 @@ const assetsPathFor = (assetsRelativePath) => {
   return `ember-build/${path}`;
 };
 
-// Firefox uses background.scripts; Chrome MV3 requires service_worker
-const backgroundField = isFirefox
-  ? {scripts: ['background.js']}
-  : {service_worker: 'background.js'};
-
-// Firefox requires a gecko id for storage to persist between sessions
-const firefoxSpecificFields = isFirefox
-  ? {
-      browser_specific_settings: {
-        gecko: {
-          id: 'better-trading@exile-center',
-          strict_min_version: '109.0',
-        },
-      },
-    }
-  : {};
-
 const manifest = Object.assign(
   {
     version: packageJson.version,
@@ -49,7 +29,9 @@ const manifest = Object.assign(
         css: [assetsPathFor('vendor.css'), assetsPathFor('better-trading.css')],
       },
     ],
-    background: backgroundField,
+    background: {
+      scripts: ['background.js'],
+    },
     permissions: ['storage'],
     host_permissions: ['*://poe.ninja/*'],
     web_accessible_resources: [
@@ -64,7 +46,12 @@ const manifest = Object.assign(
       64: 'icon64.png',
       128: 'icon128.png',
     },
-    ...firefoxSpecificFields,
+    browser_specific_settings: {
+      gecko: {
+        id: 'better-trading@exile-center',
+        strict_min_version: '109.0',
+      },
+    },
   },
   packageJson.manifest
 );

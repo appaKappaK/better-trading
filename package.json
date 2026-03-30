@@ -11,7 +11,7 @@
     "name": "Better PathOfExile Trading",
     "description": ""
   },
-  "repository": "https://github.com/poe-world/better-trading",
+  "repository": "https://github.com/appaKappaK/better-trading",
   "engine-strict": true,
   "engines": {
     "node": ">=12",
@@ -19,13 +19,14 @@
   },
   "scripts": {
     "clean": "rimraf dist",
-    "dev": "npm run clean && npm run scaffold-extension dev && npm run ember:watch",
-    "dev-firefox": "npm run clean && cross-env TARGET_BROWSER=firefox node ./scripts/scaffold-extension.js dev && cross-env NODE_OPTIONS=--openssl-legacy-provider TARGET_BROWSER=firefox ember build --environment development --output-path ./dist/dev/ember-build && node ./scripts/patch-vendor-firefox.js dev",
-    "package-firefox": "node ./scripts/package-firefox.js",
+    "dev": "npm run clean && node ./scripts/scaffold-extension.js dev && cross-env NODE_OPTIONS=--openssl-legacy-provider BROCCOLI_PERSISTENT_FILTER_CACHE_ROOT=.cache/broccoli-persistent-filter ember build --environment development --output-path ./dist/dev/ember-build && node ./scripts/patch-vendor-firefox.js dev",
+    "dev-firefox": "npm run dev",
+    "package": "node ./scripts/package-firefox.js",
+    "package-firefox": "npm run package",
     "ember:watch": "ember build --watch --environment development --output-path ./dist/dev/ember-build",
-    "postinstall": "patch-package",
+    "postinstall": "patch-package && node ./scripts/patch-workerpool-node18.js",
     "scaffold-extension": "node ./scripts/scaffold-extension.js",
-    "test": "ember exam --reporter dot"
+    "test": "cross-env NODE_OPTIONS=--openssl-legacy-provider BROCCOLI_PERSISTENT_FILTER_CACHE_ROOT=.cache/broccoli-persistent-filter ember exam --reporter dot"
   },
   "devDependencies": {
     "@ember/optional-features": "~1.1.0",

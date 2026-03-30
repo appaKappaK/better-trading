@@ -50,43 +50,20 @@ dependencies: ## Install required dependencies
 	npm ci
 
 .PHONY: package
-package: package-chrome package-firefox ## Package the extension for every browsers
-
-.PHONY: package-chrome
-package-chrome: ## Package the chrome extension
-	node ./scripts/enforce-engine-versions.js
-	rm -f ./dist-packages/chrome.zip
-	rm -rf ./dist
-	export TARGET_BROWSER=chrome; npx ember build --environment production --output-path ./dist/ember-build
-	mkdir -p ./dist/staged/assets
-	cp -R ./dist/ember-build/assets/{better-trading.js,better-trading.css,vendor.js,vendor.css,images} ./dist/staged/assets
-	node ./scripts/scaffold-extension.js production
-	mkdir -p ./dist-packages
-	(cd ./dist/staged/; zip -r ../../dist-packages/chrome.zip *)
+package: package-firefox ## Package the Firefox extension
 
 .PHONY: package-firefox
 package-firefox: ## Package the firefox extension
 	node ./scripts/enforce-engine-versions.js
-	rm -f ./dist-packages/firefox.zip
-	rm -rf ./dist
-	export TARGET_BROWSER=firefox; npx ember build --environment production --output-path ./dist/ember-build
-	mkdir -p ./dist/staged/assets
-	cp -R ./dist/ember-build/assets/{better-trading.js,better-trading.css,vendor.js,vendor.css,images} ./dist/staged/assets
-	export TARGET_BROWSER=firefox; node ./scripts/scaffold-extension.js production
-	node ./scripts/patch-vendor-firefox.js production
-	mkdir -p ./dist-packages
-	(cd ./dist/staged/; zip -r ../../dist-packages/firefox.zip *)
+	npm run package
 
 .PHONY: dev-firefox
 dev-firefox: ## Build the extension for Firefox development (then load dist/dev in about:debugging)
 	node ./scripts/enforce-engine-versions.js
-	rm -rf ./dist/dev
-	export TARGET_BROWSER=firefox; node ./scripts/scaffold-extension.js dev
-	export TARGET_BROWSER=firefox; npx ember build --environment development --output-path ./dist/dev/ember-build
-	node ./scripts/patch-vendor-firefox.js dev
+	npm run dev
 
 .PHONY: dev
-dev: ## Build the extension for development purposes, watching files for update
+dev: ## Build the Firefox extension for development
 	node ./scripts/enforce-engine-versions.js
 	npm run dev
 
@@ -136,4 +113,4 @@ lint-templates:
 
 .PHONY: lint-firefox
 lint-firefox:
-	npx addons-linter ./dist-packages/firefox.zip
+	npx addons-linter ./dist-packages/better-trading-firefox.xpi

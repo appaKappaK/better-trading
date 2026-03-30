@@ -25,7 +25,6 @@ declare const config: {
     tftDiscordUrl: string;
     githubUrl: string;
     chaosRecipeOverlayUrl: string;
-    browser: 'chrome' | 'firefox';
     locationPollingIntervalInMilliseconds: number;
     maximumHistoryLength: number;
   };

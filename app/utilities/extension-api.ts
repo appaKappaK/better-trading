@@ -1,6 +1,3 @@
-// Config
-import config from 'better-trading/config/environment';
-
 interface ExtensionApi {
   runtime: {
     getURL(path: string): string;
@@ -17,8 +14,9 @@ interface ExtensionApi {
 }
 
 export const extensionApi = (): ExtensionApi => {
+  // Firefox is the only supported browser target for this fork.
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   // eslint-disable-next-line no-undef
-  return config.APP.browser === 'chrome' ? chrome : browser;
+  return browser;
 };

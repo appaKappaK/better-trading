@@ -2,40 +2,38 @@
 
 # Better trading
 
-A browser extension that enhances the pathofexile.com trade site experience for Path of Exile and Path of Exile 2.
+A Firefox-focused fork of Better Trading that enhances the pathofexile.com trade site experience for Path of Exile and Path of Exile 2.
 
-<a href="https://chrome.google.com/webstore/detail/better-pathofexile-tradin/fhlinfpmdlijegjlpgedcmglkakaghnk" target="_blank">
-  <img src="./.github/readme/chrome-button.png" alt="Download for Google Chrome">
-</a>
+<img src="./.github/readme/firefox-button.png" alt="Firefox-focused fork">
 
-## Why not Firefox ?
+## Firefox-first fork
 
-- Initially, the extension did not work in Firefox. Booting Ember.js as a browser extension is not something that works well within Firefox's addon runtime. The first Firefox version relied on hacks and as expected, it broke after doing some updates. Having to hack into libs to make sure they can work in Firefox is not something that I want to do in my spare time;
-- Firefox addon store review process for new updates is way more strict and time-consuming to deal with compared to Chrome's;
-- The project is developed as a Chrome-first project, which means problems can be quickly detected during development instead of having to test everything twice;
-- Now that both Chrome and Firefox versions have been live for a while, I can see that Firefox represented less than 10% of BetterTrading users;
-
-In the meantime, you can continue to use version [1.3.2 on Firefox](https://addons.mozilla.org/en-US/firefox/addon/better-pathofexile-trading/) or you can use Chrome for your PoE business ✌️
+- This fork targets Firefox instead of trying to stay dual-browser.
+- The current install path is aimed at advanced users on Firefox Developer Edition or other Firefox builds that allow unsigned extensions.
+- Firefox support still relies on a compatibility patch for the generated Ember vendor bundle, so this should be treated as a focused port rather than a clean browser-agnostic implementation.
 
 ## Features
 
 - Bookmarks manager
 - Equivalent pricing calculator (powered by [poe.ninja](https://poe.ninja/))
 - Searched mods highlighting
-- ... more to come !
+- Pinned items
+- Search history
 
-## Contributing
+## Development
 
-1. Make sure Node.js (v10.15.x) and NPM (v6.4.x) are installed;
-2. Install the dependencies with `make dependencies`;
-3. Build the project with `make dev`;
-4. Install the local extension located at `./dist/dev`.
+1. Use Node.js 18 and npm.
+2. Install dependencies with `npm install --legacy-peer-deps`.
+3. Run `npm run dev`.
+4. Load `./dist/dev/manifest.json` from `about:debugging`.
 
-The command `make package` can be used to generated the store-ready zip files (chrome and firefox).
+## Packaging
 
-Don't forget to run `make help` to know more about the other commands.
+1. Run `npm run package`.
+2. Install `dist-packages/better-trading-firefox.xpi` in Firefox Developer Edition.
+3. If Firefox blocks unsigned installs on your setup, set `xpinstall.signatures.required` to `false` in `about:config`.
 
-**Useful resources**
+## Useful resources
 
-- [How to install a local extension](https://developer.chrome.com/extensions/getstarted)
-- [Extension reloader](https://chrome.google.com/webstore/detail/extensions-reloader/fimgfedafeadlieiabdeeaodndnlbhid)
+- [Firefox about:debugging](https://extensionworkshop.com/documentation/develop/debugging/)
+- [Firefox Add-on signing overview](https://extensionworkshop.com/documentation/publish/signing-and-distribution-overview/)

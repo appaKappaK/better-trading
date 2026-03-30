@@ -72,5 +72,16 @@ if (patched) {
   fs.writeFileSync(fullPath, content);
   console.log('vendor.js patched for Firefox compatibility.');
 } else {
-  console.log('vendor.js: no patch needed (pattern not found or already patched).');
+  const alreadyPatched =
+    content.includes('var t=true') ||
+    content.includes('var hasDom=true') ||
+    content.includes(": (typeof globalThis !== 'undefined' ? globalThis : self);");
+
+  if (alreadyPatched) {
+    console.log('vendor.js already patched for Firefox compatibility.');
+    process.exit(0);
+  }
+
+  console.error('vendor.js patch failed: expected Firefox compatibility patterns were not found.');
+  process.exit(1);
 }
