@@ -47,7 +47,7 @@ targets:
 .PHONY: dependencies
 dependencies: ## Install required dependencies
 	node ./scripts/enforce-engine-versions.js
-	npm ci
+	npm ci --legacy-peer-deps
 
 .PHONY: package
 package: package-firefox ## Package the Firefox extension
