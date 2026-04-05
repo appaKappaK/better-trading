@@ -4,8 +4,6 @@
 
 A Firefox-focused fork of Better Trading that enhances the pathofexile.com trade site experience for Path of Exile and Path of Exile 2.
 
-<img src="./.github/readme/firefox-button.png" alt="Firefox-focused fork">
-
 ## Firefox-first fork
 
 - This fork targets Firefox instead of trying to stay dual-browser.
