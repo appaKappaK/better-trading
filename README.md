@@ -4,7 +4,6 @@
 
 👉 **[Better Trading for Firefox](https://addons.mozilla.org/en-US/firefox/addon/better-trading-for-firefox/)** – Built from scratch as a proper Firefox MV3 extension. No compatibility hacks, no unsigned installs, no developer edition required.
 
-- **Install from [AMO](https://addons.mozilla.org/en-US/firefox/addon/better-trading-for-firefox/)**
 - **View source on [GitHub](https://github.com/appaKappaK/better-trading-for-firefox)**
 
 ---
